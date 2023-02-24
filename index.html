@@ -54,6 +54,7 @@
         const $$ = document.querySelectorAll.bind(document)
 
         const PLAYER_STORAGE_KEY = 'F8_PLAYER'
+
         const heading = $('.header-flow h2')
         const time_line = $('#time-line')
         const audio = $('#audio')
@@ -70,11 +71,8 @@
         const app = {
             currentIndex: 0,
             randomArray: [],
-            config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
-            setConfig: function(key, value) {
-                this.config[key] = value;
-                localStorage.setItem(PLAYER_STORAGE_KEY, this.config)
-            },
+            config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY))|| {},
+            
             songs: [
                 {
                     name: 'Hãy Nói Đi',
@@ -137,6 +135,10 @@
                     image: './assets/img/song5.jpg'
                 }
             ],
+            setConfig: function(key, value) {
+                this.config[key] = value;
+                localStorage.setItem(PLAYER_STORAGE_KEY, JSON.stringify(this.config))
+            },
             render: function() {
                 const htlms = this.songs.map((song, index) => {
                     return `<div class="song ${this.currentIndex === index ?"active":""}" data-index="${index}">
@@ -186,6 +188,8 @@
                     {
                         audio.play()
                     }
+                _this.setConfig('isRandom', true)
+
                 }
 
                 // Khi song được play
